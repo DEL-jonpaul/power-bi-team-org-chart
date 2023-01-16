@@ -1,0 +1,66 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Parent ID",
+            "name": "pid",
+            "kind": "GroupingOrMeasure"
+        },
+        {
+            "displayName": "Unique ID",
+            "name": "uid",
+            "kind": "GroupingOrMeasure"
+        },
+        {
+            "displayName": "Name",
+            "name": "name",
+            "kind": "GroupingOrMeasure"
+        },
+        {
+            "displayName": "Team",
+            "name": "team",
+            "kind": "GroupingOrMeasure"
+        },
+        {
+            "displayName": "Details",
+            "name": "details",
+            "kind": "GroupingOrMeasure"
+        }
+    ],
+    "objects": {},
+    "dataViewMappings":  [
+        {
+            "table": {
+                "rows": {
+                    "select": [
+                        {
+                            "for": {
+                                "in": "pid"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "uid"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "name"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "team"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "details"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "privileges": []
+}

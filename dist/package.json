@@ -1,0 +1,17 @@
+{
+    "version": "1.0.0",
+    "author": {"name":"Jonathan Paul","email":"jonpaul@deloitte.com"},
+    "resources": [
+        {
+            "resourceId": "rId0",
+            "sourceType": 5,
+            "file": "resources/orgchartBACC2BEC74244B22B53D3F1E69C0E08A.pbiviz.json"
+        }
+    ],
+    "visual": {"name":"orgchart","displayName":"orgchart_jonathanpaul","guid":"orgchartBACC2BEC74244B22B53D3F1E69C0E08A","visualClassName":"Visual","version":"1.0.0","description":"an org chart developed for HERMES by Jonathan Paul in January 2023","supportUrl":"mailto:jonpaul@deloitte.com","gitHubUrl":""},
+    "metadata": {
+        "pbivizjson": {
+            "resourceId": "rId0"
+        }
+    }  
+}
