@@ -12,6 +12,8 @@ export declare class Visual implements IVisual {
     private name_index;
     private team_index;
     private detail_index;
+    private principalName_index;
+    private token;
     constructor(options: VisualConstructorOptions);
     createTree(root: any, data: any): any;
     update(options: VisualUpdateOptions): void;

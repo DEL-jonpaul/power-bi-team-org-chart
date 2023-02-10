@@ -129,6 +129,13 @@ body {
   align-items: stretch;
   border: 1px solid var(--backgroundColor);
 }
+.card img {
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #96f6b7;
+  /* transform: translateY(-40px); */
+}
 .card .team-name {
   min-width: 400px;
   font-size: 18px;
@@ -183,7 +190,14 @@ body {
   display: flex;
   flex-direction: row;
   padding: 5px;
-  border-top: 1px solid #b0b0b0;
+  border-top: 1px solid rgba(50, 50, 50, 0.1);
+}
+.card .details {
+  display: flex;
+  flex-direction: column;
+  vertical-align: top;
+  padding-bottom: 5px;
+  max-width: 50%;
 }
 .card .person .name {
   white-space: nowrap;

@@ -33,6 +33,7 @@ import IViewport = powerbi.IViewport;
 import VisualConstructorOptions = powerbi.extensibility.visual.VisualConstructorOptions;
 import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
 import IVisual = powerbi.extensibility.visual.IVisual;
+
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { ReactCircleCard, initialState } from "./component";    
@@ -48,10 +49,19 @@ export class Visual implements IVisual {
     private name_index;
     private team_index;
     private detail_index;
+    private principalName_index;
+    private token;
 
     constructor(options: VisualConstructorOptions) {
+        console.clear();
         this.reactRoot = React.createElement(ReactCircleCard, {});
         this.target = options.element;
+        console.log("id: ", options.host.instanceId);
+        // this.token = options.host.authenticationService.getAADToken(options.host.instanceId)
+        //     .then(token => console.log("promised token", token))
+        //     .catch(error => console.error(error))
+        //     .finally(() => console.log("DONE"));
+        // console.log("token constructor", this.token);
         
         ReactDOM.render(this.reactRoot, this.target);
     }
@@ -95,6 +105,10 @@ export class Visual implements IVisual {
                 (each) => each.roles.details?.valueOf
             )
 
+            this.principalName_index = table.columns.findIndex(
+                (each) => each.roles.principalName?.valueOf
+            )
+
             //console.clear()
             console.log("data: ", table);
         
@@ -104,21 +118,29 @@ export class Visual implements IVisual {
                     pid: e[this.pid_index],
                     name: e[this.name_index],
                     team: e[this.team_index],
+                    principalName: e[this.principalName_index],
                     details: e.slice(this.detail_index),
                     children: [],
                 }
             })
-            const root = parsedData.filter(e => e.pid === "" || e.pid === null)[0]
+
+            const parents = parsedData.filter(e => e.pid === "" || e.pid === null)
+            const multipleParents = parents.length > 1
+            const root = parents[0]
 
             //remove root from data
             parsedData = parsedData.filter(e => e.id !== root.id)
+            
+            //populate the tree - each entry has members (people on the same team) and children
             const tree = this.createTree(root, parsedData)
             console.log("tree: ", JSON.parse(JSON.stringify(tree)));
             this.viewport = options.viewport;
 
             ReactCircleCard.update({
                 root: tree,
-                size: this.viewport
+                size: this.viewport,
+                multipleParents: multipleParents,
+                token: this.token
             });
         } else {
             this.clear();

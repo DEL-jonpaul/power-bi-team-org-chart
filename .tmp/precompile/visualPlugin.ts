@@ -9,7 +9,7 @@ var orgchartBACC2BEC74244B22B53D3F1E69C0E08A_DEBUG: IVisualPlugin = {
     name: 'orgchartBACC2BEC74244B22B53D3F1E69C0E08A_DEBUG',
     displayName: 'orgchart_jonathanpaul',
     class: 'Visual',
-    apiVersion: '5.1.0',
+    apiVersion: '5.2.0',
     create: (options: VisualConstructorOptions) => {
         if (Visual) {
             return new Visual(options);

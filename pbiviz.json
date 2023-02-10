@@ -12,7 +12,6 @@
   "apiVersion": "5.1.0",
   "author": { "name": "Jonathan Paul", "email": "jonpaul@deloitte.com" },
   "assets": { "icon": "assets/icon.png" },
-  "externalJS": null,
   "style": "style/visual.less",
   "capabilities": "capabilities.json",
   "dependencies": null,

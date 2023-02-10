@@ -21,6 +21,11 @@
             "kind": "GroupingOrMeasure"
         },
         {
+            "displayName": "Principal Name",
+            "name": "principalName",
+            "kind": "GroupingOrMeasure"
+        },
+        {
             "displayName": "Details",
             "name": "details",
             "kind": "GroupingOrMeasure"
@@ -54,6 +59,11 @@
                         },
                         {
                             "for": {
+                                "in": "principalName"
+                            }
+                        },
+                        {
+                            "for": {
                                 "in": "details"
                             }
                         }
@@ -62,5 +72,5 @@
             }
         }
     ],
-    "privileges": []
+    "privileges":[]
 }
