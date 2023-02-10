@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Profile Picture Test</title>
+</head>
+
+<body>
+    <img id="prof" src="" />
+
+    <script>
+        ////working api call
+        // const key = 'DCB2ED6D113D47759F3FDBCDB86AE3AB'
+        // const url = "http://192.168.86.190:5000/api/settings"
+
+        // let response = fetch(url, {
+        //     headers: {
+        //         'X-Api-Key': key,
+        //     }
+        // }).then(e => e.json().then(e => console.log(e)))
+
+        //doesnt work because it doesn't actually refresh
+        // const img = document.getElementById("3dPrinter")
+
+        // setInterval(updateSnapshot, 500)
+        // function updateSnapshot() {
+        //     // img.setAttribute('src', 'http://192.168.86.190:5001/snapshot')
+        //     var content = img.innerHTML;
+        //     img.innerHTML= content; 
+        //     console.log('updated');
+        // }
+
+        const key = 'eyJ0eXAiOiJKV1QiLCJub25jZSI6ImRFeEJSWktKYlVJSFlwV2ItMFB0M0pXZTVCSm5pN1ZENHJjS2xSVnh0d2ciLCJhbGciOiJSUzI1NiIsIng1dCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyIsImtpZCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDAiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC85Y2U3MDg2OS02MGRiLTQ0ZmQtYWJlOC1kMjc2NzA3N2ZjOGYvIiwiaWF0IjoxNjc0MTUwOTk4LCJuYmYiOjE2NzQxNTA5OTgsImV4cCI6MTY3NDE1NTM0NywiYWNjdCI6MCwiYWNyIjoiMSIsImFpbyI6IkFWUUFxLzhUQUFBQUdVN0xIT3FWM2tYQS9YWEc1TWtlei9YbWhUa3lwTXhyamswRjBNazRVcjdkVlIvQlhpdWFiZmFYVjVENWs3a29pdmhzV1ZRV2ZTOVNQd2phcndvcEloYUtlb20rYlZmRGMySkJ1QkVXVVVZPSIsImFtciI6WyJwd2QiLCJtZmEiXSwiYXBwX2Rpc3BsYXluYW1lIjoiR3JhcGggRXhwbG9yZXIiLCJhcHBpZCI6ImRlOGJjOGI1LWQ5ZjktNDhiMS1hOGFkLWI3NDhkYTcyNTA2NCIsImFwcGlkYWNyIjoiMCIsImZhbWlseV9uYW1lIjoiUGF1bCIsImdpdmVuX25hbWUiOiJKb25hdGhhbiIsImlkdHlwIjoidXNlciIsImlwYWRkciI6IjEwNC4xNzYuMjguOTQiLCJuYW1lIjoiUGF1bCwgSm9uYXRoYW4gKENEQy9ERElEL05DSVJEL09EKSAoQ1RSKSIsIm9pZCI6IjBjN2M5NGEwLTYzMjYtNDdiNy05ZjNiLTEwY2I1ZWQ3OTIzNiIsIm9ucHJlbV9zaWQiOiJTLTEtNS0yMS0xMjA3NzgzNTUwLTIwNzUwMDA5MTAtOTIyNzA5NDU4LTg2Nzk0MiIsInBsYXRmIjoiMyIsInB1aWQiOiIxMDAzMjAwMThCMkZFMjQ4IiwicmgiOiIwLkFSZ0FhUWpubk50Z19VU3I2TkoyY0hmOGp3TUFBQUFBQUFBQXdBQUFBQUFBQUFBWUFHby4iLCJzY3AiOiJDYWxlbmRhcnMuUmVhZFdyaXRlIENoYXQuUmVhZCBDaGF0LlJlYWRCYXNpYyBDb250YWN0cy5SZWFkV3JpdGUgRGV2aWNlTWFuYWdlbWVudE1hbmFnZWREZXZpY2VzLlJlYWQuQWxsIERldmljZU1hbmFnZW1lbnRSQkFDLlJlYWQuQWxsIERldmljZU1hbmFnZW1lbnRTZXJ2aWNlQ29uZmlnLlJlYWQuQWxsIEZpbGVzLlJlYWRXcml0ZS5BbGwgR3JvdXAuUmVhZFdyaXRlLkFsbCBJZGVudGl0eVJpc2tFdmVudC5SZWFkLkFsbCBNYWlsLlJlYWQgTWFpbC5SZWFkV3JpdGUgTWFpbGJveFNldHRpbmdzLlJlYWRXcml0ZSBOb3Rlcy5SZWFkV3JpdGUuQWxsIG9wZW5pZCBQZW9wbGUuUmVhZCBQbGFjZS5SZWFkIFByZXNlbmNlLlJlYWQgUHJlc2VuY2UuUmVhZC5BbGwgUHJpbnRlclNoYXJlLlJlYWRCYXNpYy5BbGwgUHJpbnRKb2IuQ3JlYXRlIFByaW50Sm9iLlJlYWRCYXNpYyBwcm9maWxlIFJlcG9ydHMuUmVhZC5BbGwgU2l0ZXMuUmVhZFdyaXRlLkFsbCBUYXNrcy5SZWFkV3JpdGUgVXNlci5SZWFkIFVzZXIuUmVhZEJhc2ljLkFsbCBVc2VyLlJlYWRXcml0ZSBVc2VyLlJlYWRXcml0ZS5BbGwgZW1haWwiLCJzaWduaW5fc3RhdGUiOlsia21zaSJdLCJzdWIiOiJxdllNQ2YtaGpMVmxkc29MV2lRd1k4WkZrWjZ0N1JNZ2s5aVhSeTZYOWxZIiwidGVuYW50X3JlZ2lvbl9zY29wZSI6Ik5BIiwidGlkIjoiOWNlNzA4NjktNjBkYi00NGZkLWFiZTgtZDI3NjcwNzdmYzhmIiwidW5pcXVlX25hbWUiOiJzbHU0QGNkYy5nb3YiLCJ1cG4iOiJzbHU0QGNkYy5nb3YiLCJ1dGkiOiJjODB1NzFQVnlVMnV6Tks2RkVlWkFBIiwidmVyIjoiMS4wIiwid2lkcyI6WyJiNzlmYmY0ZC0zZWY5LTQ2ODktODE0My03NmIxOTRlODU1MDkiXSwieG1zX3N0Ijp7InN1YiI6IlNGRHBsUDEyREhOTnlzT0J6aWRFTVRwWW4tYzBSN1IwM1hnNk1VQUlxV0UifSwieG1zX3RjZHQiOjE0NDEwNDg4OTF9.Jl44gLi6DXuo16G7g76D8-jglYnuOqGXEE5maHFo-pnJvgilFdsrqCiQwkP79CCmrsK-pqIrQWK7ZmKmXjicZ8e07E6xqwT8dcITFXBz07wD4PIcrzIasPJD8zBIHBeLS2KtNpmeuaKzSanHOTuWH2wdHBlKFUsdN4EfhHrvDxje5FVZsbssjDksGXwB2vCBszxy2WK-rxUmNEZcCgykfWwGZHTBG7xoJ-bDxKvf_mWlRKj6dAKXeRt_MJMiggDsswQvnWdGeoS-emPNpxL0sQGGD-Xae82Y9F80cl57PLsv4S4YKPvaGMo0KdlWD3_h_Jq-HXhBqsbFD9xDIORRSQ'
+        const url = 'https://delve-gcc.office.com/mt/v3/people/profileimage?userId=slu4%40cdc.gov&size=L'//'https://graph.microsoft.com/v1.0/users/{}@cdc.gov/photo/$value'
+        const img = document.getElementById('prof')
+        
+        img.setAttribute('src', url)
+        // let imgURL = ''
+
+        // let response = fetch(url, {
+        //     headers: {
+        //         Authorization: `Bearer ${key}`
+        //     },
+        // }).then(e => e.blob().then(blob => {
+        //     imgURL = URL.createObjectURL(blob)
+        //     img.setAttribute('src', imgURL)
+        // }))
+
+        
+        
+        
+        
+    </script>
+</body>
+
+</html>
+
+
