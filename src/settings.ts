@@ -32,52 +32,25 @@ import FormattingSettingsCard = formattingSettings.Card;
 import FormattingSettingsSlice = formattingSettings.Slice;
 import FormattingSettingsModel = formattingSettings.Model;
 
-/**
- * Data Point Formatting Card
- */
-class DataPointCardSettings extends FormattingSettingsCard {
-    defaultColor = new formattingSettings.ColorPicker({
-        name: "defaultColor",
-        displayName: "Default color",
-        value: { value: "" }
+export class CircleSettings extends FormattingSettingsCard{
+    public circleColor = new formattingSettings.ColorPicker({
+        name: "circleColor",
+        displayName: "Color",
+        value: { value: "#0059da" }
     });
 
-    showAllDataPoints = new formattingSettings.ToggleSwitch({
-        name: "showAllDataPoints",
-        displayName: "Show all",
-        value: true
+    public circleThickness = new formattingSettings.NumUpDown({
+        name: "circleThickness",
+        displayName: "Thickness",
+        value: 2
     });
 
-    fill = new formattingSettings.ColorPicker({
-        name: "fill",
-        displayName: "Fill",
-        value: { value: "" }
-    });
-
-    fillRule = new formattingSettings.ColorPicker({
-        name: "fillRule",
-        displayName: "Color saturation",
-        value: { value: "" }
-    });
-
-    fontSize = new formattingSettings.NumUpDown({
-        name: "fontSize",
-        displayName: "Text Size",
-        value: 12
-    });
-
-    name: string = "dataPoint";
-    displayName: string = "Data colors";
-    slices: Array<FormattingSettingsSlice> = [this.defaultColor, this.showAllDataPoints, this.fill, this.fillRule, this.fontSize];
+    public name: string = "circle";
+    public displayName: string = "Circle";
+    public slices: FormattingSettingsSlice[] = [this.circleColor, this.circleThickness]
 }
 
-/**
-* visual settings model class
-*
-*/
-export class VisualFormattingSettingsModel extends FormattingSettingsModel {
-    // Create formatting settings model formatting cards
-    dataPointCard = new DataPointCardSettings();
-
-    cards = [this.dataPointCard];
+export class VisualSettings extends FormattingSettingsModel {
+    public circle: CircleSettings = new CircleSettings();
+    public cards: FormattingSettingsCard[] = [this.circle];
 }

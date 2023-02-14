@@ -1,23 +1,24 @@
 import React, { Fragment, Component, useState, useEffect } from "react";
 import blank_pf from './blank_profile.jpg';
 
-let levelColor
+let treeColor
 let transparency = 1
 
 export interface State {
   root: object;
   size: object;
   multipleParents: boolean;
-  token: string;
+  color: object;
 }
 
 export const initialState: State = {
   root: null,
   size: { width: 1280, height: 720, scale: 1 },
   multipleParents: null,
-  token: null, //how do I store this without having to pass it all the way down?
+  color: null,
 };
 
+// function to scale the chart to fit nicely in the viewport
 let applyScaling = (size) => {
   let parent = Array.from(
     document.getElementsByClassName("org-tree") as HTMLCollectionOf<HTMLElement>
@@ -36,55 +37,57 @@ let applyScaling = (size) => {
     dx / scaleAmtX
   }px)`;
 
-  console.table({
-    wrapperWidth: ww,
-    wrapperHeight: wh,
-    contentWidth: cw,
-    contentHeight: ch,
-    width: cw * scaleAmtX,
-    height: ch * scaleAmtY,
-    widthDifference: ww - cw * scaleAmtX,
-    translate: dx,
-  });
+  // console.table({
+  //   wrapperWidth: ww,
+  //   wrapperHeight: wh,
+  //   contentWidth: cw,
+  //   contentHeight: ch,
+  //   width: cw * scaleAmtX,
+  //   height: ch * scaleAmtY,
+  //   widthDifference: ww - cw * scaleAmtX,
+  //   translate: dx,
+  // });
 };
 
 export class ReactCircleCard extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = initialState;
+    
   }
-
+  
   private static updateCallback: (data: object) => void = null;
-
+  
   public static update(newState: State) {
     if (typeof ReactCircleCard.updateCallback === "function") {
       ReactCircleCard.updateCallback(newState);
     }
   }
-
+  
   public state: State = initialState;
-
+  
   public componentDidUpdate() {
     applyScaling(this.state.size);
+    transparency = 1; //reset transparency
   }
-
+  
   public componentDidMount() {
     ReactCircleCard.updateCallback = (newState: State): void => {
       this.setState(newState);
     };
   }
-
+  
   public componentWillUnmount() {
     ReactCircleCard.updateCallback = null;
   }
-
+  
   render() {
+    treeColor = this.state.color
     return (
       <div className="org-tree">
         <Card
           root={this.state.root ? [this.state.root] : null}
           multipleParents={this.state.multipleParents}
-          token={this.state.token}
         />
       </div>
     );
@@ -92,8 +95,10 @@ export class ReactCircleCard extends Component<{}, State> {
 }
 
 const Card = (props) => {
-  levelColor = `rgba(0,120,215,${transparency})`
-  transparency -= .3
+  // console.log("Tree Color: ", treeColor);
+  console.log("color: ", treeColor);
+  let levelColor = treeColor ? `rgba(${treeColor.r},${treeColor.g},${treeColor.b},${transparency})`: `rgb(0,255,0)`
+  transparency *= 0.65
   // console.log(props.root);
   if (props.multipleParents) {
     return (
@@ -119,10 +124,10 @@ const Card = (props) => {
                        >
                     <h4>{item.team}</h4>
                   </div>
-                  <Lead item={item} token={props.token}/>
+                  <Lead item={item}/>
                   <div className="card-body">
                     {item.members.map((each) => {
-                      return <TeamMember item={each} token={props.token}/>;
+                      return <TeamMember item={each} />;
                     })}
                   </div>
                   <div
@@ -143,10 +148,10 @@ const Card = (props) => {
 
 function Lead(props) {
   const item = props.item;
-  console.log("Lead: ", item.principalName);
+  // console.log("Lead: ", item.principalName);
   return (
     <div className="lead">
-      {item.principalName && <ProfilePicture id={item.principalName} token={props.token}/>}
+      {item.principalName && <ProfilePicture id={item.principalName} />}
       <h4 className="name">{item.name}</h4>
       <div className="details">
         {item.details.map((detail) => (
@@ -162,7 +167,6 @@ const TeamMember = (props) => {
   return (
     <>
       <div className="person">
-        {/* <ProfilePicture id="slu4" token={props.token}/> */}
         <p className="name">
           <b>{item.name === "" ? "***NO NAME***" : item.name}</b>
         </p>
@@ -197,7 +201,7 @@ const ProfilePicture = (props) => {
   // //   }
   // // )
   // return <img src={imgURL}></img>
-  console.log("img id: ", props.id);
+  // console.log("img id: ", props.id);
   const url = `https://delve-gcc.office.com/mt/v3/people/profileimage?userId=${props.id}%40cdc.gov&size=L`
   return <img src={url} onError={({ currentTarget }) => {
     currentTarget.onerror = null; // prevents looping

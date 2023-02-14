@@ -31,7 +31,26 @@
             "kind": "GroupingOrMeasure"
         }
     ],
-    "objects": {},
+    "objects": {
+        "circle": {
+            "properties": {
+                "circleColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "circleThickness": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        }
+    },
     "dataViewMappings":  [
         {
             "table": {

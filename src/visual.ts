@@ -25,7 +25,8 @@
 */
 "use strict";
 import powerbi from "powerbi-visuals-api";
-
+import { VisualSettings } from "./settings";
+import { FormattingSettingsService } from "powerbi-visuals-utils-formattingmodel";
 import DataView = powerbi.DataView;
 import DataViewTable = powerbi.DataViewTable;
 import IViewport = powerbi.IViewport;
@@ -50,37 +51,45 @@ export class Visual implements IVisual {
     private team_index;
     private detail_index;
     private principalName_index;
-    private token;
-
+    
+    private visualSettings: VisualSettings;
+    private formattingSettingsService: FormattingSettingsService;
+    
     constructor(options: VisualConstructorOptions) {
         console.clear();
+        this.formattingSettingsService = new FormattingSettingsService();
         this.reactRoot = React.createElement(ReactCircleCard, {});
         this.target = options.element;
-        console.log("id: ", options.host.instanceId);
+        
+        // console.log("id: ", options.host.instanceId);
         // this.token = options.host.authenticationService.getAADToken(options.host.instanceId)
         //     .then(token => console.log("promised token", token))
         //     .catch(error => console.error(error))
         //     .finally(() => console.log("DONE"));
         // console.log("token constructor", this.token);
-        
+
         ReactDOM.render(this.reactRoot, this.target);
     }
-
+    
     public createTree(root, data) {
-
+        
         //set the children of the root to be each that has the parent id equal to root's unique id
         root.children = data.filter(each => each.pid === root.id && each.team !== root.team)
-
+        
         data = data.filter(each => !root.children.includes(each))
         root.children.forEach(child => this.createTree(child, data))
         root.members = data.filter(each => each.team === root.team).sort((a, b) => a.name > b.name ? 1: -1)
         return root;
     }
-
-
-
+    
+    
+    
     public update(options: VisualUpdateOptions) {
         if(options.dataViews && options.dataViews[0]){
+            
+            this.visualSettings = this.formattingSettingsService.populateFormattingSettingsModel(VisualSettings, options.dataViews);
+            let color = hexToRgb(this.visualSettings.circle.circleColor.value.value)
+            console.log("color visual.ts: ", color);
             const dataView: DataView = options.dataViews[0];
             const table: DataViewTable = dataView.table;
             const data = table.rows
@@ -110,7 +119,6 @@ export class Visual implements IVisual {
             )
 
             //console.clear()
-            console.log("data: ", table);
         
             let parsedData = data.map(e => {
                 return {
@@ -133,14 +141,14 @@ export class Visual implements IVisual {
             
             //populate the tree - each entry has members (people on the same team) and children
             const tree = this.createTree(root, parsedData)
-            console.log("tree: ", JSON.parse(JSON.stringify(tree)));
+            // console.log("tree: ", JSON.parse(JSON.stringify(tree)));
             this.viewport = options.viewport;
 
             ReactCircleCard.update({
                 root: tree,
                 size: this.viewport,
                 multipleParents: multipleParents,
-                token: this.token
+                color: color
             });
         } else {
             this.clear();
@@ -150,4 +158,18 @@ export class Visual implements IVisual {
     private clear() {
         ReactCircleCard.update(initialState);
     }
+
+    public getFormattingModel(): powerbi.visuals.FormattingModel {
+        return this.formattingSettingsService.buildFormattingModel(this.visualSettings);
+    }
 }
+
+function hexToRgb(hex) {
+    console.log("hex: ", hex);
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  }
