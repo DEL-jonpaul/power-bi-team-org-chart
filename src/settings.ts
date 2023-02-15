@@ -32,25 +32,19 @@ import FormattingSettingsCard = formattingSettings.Card;
 import FormattingSettingsSlice = formattingSettings.Slice;
 import FormattingSettingsModel = formattingSettings.Model;
 
-export class CircleSettings extends FormattingSettingsCard{
-    public circleColor = new formattingSettings.ColorPicker({
-        name: "circleColor",
+export class ChartSettings extends FormattingSettingsCard{
+    public chartColor = new formattingSettings.ColorPicker({
+        name: "chartColor",
         displayName: "Color",
-        value: { value: "#0059da" }
+        value: { value: "#ffffff" }
     });
 
-    public circleThickness = new formattingSettings.NumUpDown({
-        name: "circleThickness",
-        displayName: "Thickness",
-        value: 2
-    });
-
-    public name: string = "circle";
-    public displayName: string = "Circle";
-    public slices: FormattingSettingsSlice[] = [this.circleColor, this.circleThickness]
+    public name: string = "chart";
+    public displayName: string = "Chart";
+    public slices: FormattingSettingsSlice[] = [this.chartColor]
 }
 
 export class VisualSettings extends FormattingSettingsModel {
-    public circle: CircleSettings = new CircleSettings();
-    public cards: FormattingSettingsCard[] = [this.circle];
+    public chart: ChartSettings = new ChartSettings();
+    public cards: FormattingSettingsCard[] = [this.chart];
 }

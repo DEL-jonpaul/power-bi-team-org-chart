@@ -41,6 +41,8 @@ import { ReactCircleCard, initialState } from "./component";
 
 import "./../style/visual.less";
 
+
+
 export class Visual implements IVisual {
     private viewport: IViewport;
     private target: HTMLElement;
@@ -49,7 +51,7 @@ export class Visual implements IVisual {
     private pid_index;
     private name_index;
     private team_index;
-    private detail_index;
+    private detail_indices;
     private principalName_index;
     
     private visualSettings: VisualSettings;
@@ -71,28 +73,19 @@ export class Visual implements IVisual {
         ReactDOM.render(this.reactRoot, this.target);
     }
     
-    public createTree(root, data) {
-        
-        //set the children of the root to be each that has the parent id equal to root's unique id
-        root.children = data.filter(each => each.pid === root.id && each.team !== root.team)
-        
-        data = data.filter(each => !root.children.includes(each))
-        root.children.forEach(child => this.createTree(child, data))
-        root.members = data.filter(each => each.team === root.team).sort((a, b) => a.name > b.name ? 1: -1)
-        return root;
-    }
-    
     
     
     public update(options: VisualUpdateOptions) {
+        
         if(options.dataViews && options.dataViews[0]){
-            
+            console.log("UPDATING*******************************************");    
             this.visualSettings = this.formattingSettingsService.populateFormattingSettingsModel(VisualSettings, options.dataViews);
-            let color = hexToRgb(this.visualSettings.circle.circleColor.value.value)
-            console.log("color visual.ts: ", color);
-            const dataView: DataView = options.dataViews[0];
-            const table: DataViewTable = dataView.table;
+            let color = hexToRgb(this.visualSettings.chart.chartColor.value.value)
+
+            const dataView: any = options.dataViews[0];
+            const table: any = dataView.table;
             const data = table.rows
+            console.warn("DATA VIEW: ", dataView);
 
             this.pid_index = table.columns.findIndex(
                 (each) => each.roles.pid?.valueOf
@@ -105,43 +98,45 @@ export class Visual implements IVisual {
             this.team_index = table.columns.findIndex(
                 (each) => each.roles.team?.valueOf
             );
-
+                
             this.name_index = table.columns.findIndex(
                 (each) => each.roles.name?.valueOf
             );
 
-            this.detail_index = table.columns.findIndex(
+            this.detail_indices = dataView.table.columns.filter(
                 (each) => each.roles.details?.valueOf
-            )
-
-            this.principalName_index = table.columns.findIndex(
-                (each) => each.roles.principalName?.valueOf
-            )
-
-            //console.clear()
-        
+            ).map(detail_col => {
+                console.log({detail_col});
+                return Object({index: detail_col.index, displayName: detail_col.displayName, order: detail_col.rolesIndex.details[0]}
+                )
+            })
+            
             let parsedData = data.map(e => {
+                let detail_pairs = this.detail_indices.sort((a, b) => a.order > b.order ? 1: -1).map(detail => {
+                    return [detail.displayName, e[detail.index]]
+                })
+                
                 return {
                     id: e[this.uid_index],
                     pid: e[this.pid_index],
                     name: e[this.name_index],
                     team: e[this.team_index],
-                    principalName: e[this.principalName_index],
-                    details: e.slice(this.detail_index),
+                    details: Object.fromEntries(detail_pairs),
                     children: [],
                 }
             })
-
+             
+            console.log(parsedData);
             const parents = parsedData.filter(e => e.pid === "" || e.pid === null)
             const multipleParents = parents.length > 1
             const root = parents[0]
-
+            
             //remove root from data
             parsedData = parsedData.filter(e => e.id !== root.id)
             
             //populate the tree - each entry has members (people on the same team) and children
             const tree = this.createTree(root, parsedData)
-            // console.log("tree: ", JSON.parse(JSON.stringify(tree)));
+            console.log("tree: ", JSON.parse(JSON.stringify(tree)));
             this.viewport = options.viewport;
 
             ReactCircleCard.update({
@@ -151,6 +146,7 @@ export class Visual implements IVisual {
                 color: color
             });
         } else {
+            console.error("cleared visual");
             this.clear();
         }
     }
@@ -158,18 +154,27 @@ export class Visual implements IVisual {
     private clear() {
         ReactCircleCard.update(initialState);
     }
-
+    
     public getFormattingModel(): powerbi.visuals.FormattingModel {
         return this.formattingSettingsService.buildFormattingModel(this.visualSettings);
     }
+    
+    public createTree(root, data) { 
+        //set the children of the root to be each that has the parent id equal to root's unique id
+        root.children = data.filter(each => each.pid === root.id && each.team !== root.team)
+        data = data.filter(each => !root.children.includes(each))
+        root.children.forEach(child => this.createTree(child, data))
+        root.members = data.filter(each => each.team === root.team).sort((a, b) => a.name > b.name ? 1: -1)
+        return root;
+    }
+
 }
 
 function hexToRgb(hex) {
-    console.log("hex: ", hex);
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
       r: parseInt(result[1], 16),
       g: parseInt(result[2], 16),
       b: parseInt(result[3], 16)
     } : null;
-  }
+}

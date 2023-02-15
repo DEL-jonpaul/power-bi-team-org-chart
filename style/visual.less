@@ -150,8 +150,9 @@ body {
 // }
 
 .card {
+  white-space: nowrap;
   display: flex;
-  /* width: max-content; */
+  min-width: 400px;
   flex-direction: column;
   position: relative;
   align-items: stretch;
@@ -168,7 +169,7 @@ body {
 }
 
 .card .team-name {
-  // white-space: nowrap;
+  white-space: pre-wrap;
   font-size: 18px;
   padding-top: 10px;
   padding-left: 20px;
@@ -181,85 +182,57 @@ body {
 }
 
 
-.card .lead {
-  padding: 10px;
-  
-  display: flex;
-  flex-direction: row;
-  width: auto;
-  font-size: 16px;
-  
-  border: 0px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  background: #fff;
-  text-align: left;
-  
-  position: relative;
-  z-index: -1;
-  /* left: 50%;
-  transform: translateX(var(--translatex)); */
-}
 
-.card .lead .name {
-  white-space: nowrap;
-  flex: 1 1 0;
+.card table {
+  line-height: 20px;
+  border-collapse: collapse;
   text-align: left;
 }
 
-.card .lead p {
-  text-align: right;
-  font-size: small;
+
+table td, table th {
+  border: 1px solid gainsboro;
+  padding-bottom: 2px;
+  padding-top: 2px;
 }
 
-.card .card-body {
-  display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid rgb(218, 218, 218);
-  padding-top: 0px;
+table {
+  border-collapse: collapse;
+}
+table tr:first-child th {
+  border-top: 0;
+}
+table tr:last-child td {
+  border-bottom: 0;
+}
+table tr td,
+table tr th {
+  border-left: 0;
+}
+table tr td,
+table tr th {
+  border-right: 0;
+}
+
+.card table th {
+  text-align: center;
+}
+
+.card table tr:hover:not(:first-child) {
+  background-color: #f0f0f0;
+}
+
+.card table td {
   padding-left: 20px;
   padding-right: 20px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  position: relative;
-  text-align: left;
-  background: #fff;
-
 }
 
-.card .person {
-  display: flex;
-  flex-direction: row;
-  padding: 5px;
-  border-top: 1px solid rgba(50, 50, 50, 0.1);
+.card table .lead{
+  font-size: large;
+  padding-left: 10px;
+  padding: 10px;
 }
 
-
-.card .details{
-  display: flex;
-  flex-direction: row;
-  vertical-align: top;
-  padding-bottom: 5px;
-  max-width: 50%
-}
-
-.card .person .name {
-  white-space: nowrap;
-  flex: 1 1 0;
-  text-align: left;
-}
-
-.card .person p {
-  flex: 1 1 0;
-  line-height: 20px;
-  font-size: small;
-  text-align: right;
-}
-
-.card .card-body h2 {
-  font-weight: 600;
-  line-height: 20px;
-}
 
 .card .card-footer {
   padding: 3px;
@@ -275,7 +248,4 @@ body {
   left: 50%;
   transform: translateX(var(--translatex));
 }
-.card .card-footer img {
-  width: 25px;
-  margin: 1px;
-}
+

@@ -3,38 +3,34 @@
         {
             "displayName": "Parent ID",
             "name": "pid",
-            "kind": "GroupingOrMeasure"
+            "kind": "Grouping"
         },
         {
             "displayName": "Unique ID",
             "name": "uid",
-            "kind": "GroupingOrMeasure"
+            "kind": "Grouping"
         },
         {
             "displayName": "Name",
             "name": "name",
-            "kind": "GroupingOrMeasure"
+            "kind": "Grouping"
         },
         {
             "displayName": "Team",
             "name": "team",
-            "kind": "GroupingOrMeasure"
-        },
-        {
-            "displayName": "Principal Name",
-            "name": "principalName",
-            "kind": "GroupingOrMeasure"
+            "kind": "Grouping"
         },
         {
             "displayName": "Details",
             "name": "details",
-            "kind": "GroupingOrMeasure"
+            "kind": "Grouping"
         }
     ],
+    
     "objects": {
-        "circle": {
+        "chart": {
             "properties": {
-                "circleColor": {
+                "chartColor": {
                     "type": {
                         "fill": {
                             "solid": {
@@ -42,17 +38,15 @@
                             }
                         }
                     }
-                },
-                "circleThickness": {
-                    "type": {
-                        "numeric": true
-                    }
                 }
             }
         }
     },
     "dataViewMappings":  [
         {
+            "conditions": [
+                {"pid": {"min": 0, "max": 1}, "uid": {"min": 0, "max": 1}, "team": {"min": 0, "max": 1}, "name": {"min": 0, "max": 1}}
+            ],
             "table": {
                 "rows": {
                     "select": [
@@ -74,11 +68,6 @@
                         {
                             "for": {
                                 "in": "team"
-                            }
-                        },
-                        {
-                            "for": {
-                                "in": "principalName"
                             }
                         },
                         {
